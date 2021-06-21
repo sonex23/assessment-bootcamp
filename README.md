@@ -16,4 +16,4 @@
 - Wajib melakukan commit ketika ada pemberitahuan untuk melakukan commit
 
 
-** Selamat mengerjakan **
+**Selamat mengerjakan**
