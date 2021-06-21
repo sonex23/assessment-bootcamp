@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-	db := config.Connect()
+	config.Connect()
 	fmt.Println("Sukses koneksi db")
-	fmt.Println(db)
 }

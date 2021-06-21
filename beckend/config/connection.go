@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"assesment-bootcamp/entity"
+
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -24,5 +26,8 @@ func Connect() *gorm.DB {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	db.AutoMigrate(&entity.User{})
+	db.AutoMigrate(&entity.PasswordList{})
 	return db
 }
