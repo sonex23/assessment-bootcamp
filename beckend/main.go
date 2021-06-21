@@ -1,11 +1,14 @@
 package main
 
 import (
-	"assesment-bootcamp/config"
-	"fmt"
+	"assesment-bootcamp/route"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	config.Connect()
-	fmt.Println("Sukses koneksi db")
+	r := gin.Default()
+	route.UserRoute(r)
+
+	r.Run(":8000")
 }

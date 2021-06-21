@@ -16,13 +16,13 @@ type LoginUserInput struct {
 }
 
 type UserInput struct {
-	Name     string `json:"name"`
+	Fullname string `json:"fullname"`
 	Address  string `json:"address"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 type UpdateUserInput struct {
-	Name    string `json:"name"`
-	Address string `json:"address"`
+	Fullname string `json:"fullname"`
+	Address  string `json:"address"`
 }
