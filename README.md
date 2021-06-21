@@ -14,6 +14,6 @@
 - jika menggunakan smartphone, arahkan camera ke layar laptop atau PC masing masing
 - Wajib menyalakan mic 
 - Wajib melakukan commit ketika ada pemberitahuan untuk melakukan commit
-
+- Waktu pengerjaan adalah selama 4,5 jam dimulai dari saat ditentukan start mengerjakan assessment
 
 **Selamat mengerjakan**
