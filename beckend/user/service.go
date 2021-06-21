@@ -4,6 +4,7 @@ import (
 	"assesment-bootcamp/entity"
 	"errors"
 	"fmt"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -11,6 +12,8 @@ import (
 type UserService interface {
 	SaveNewUser(user entity.UserInput) (UserFormat, error)
 	LoginUser(input entity.LoginUserInput) (entity.User, error)
+	UpdateUserByID(id string, dataInput entity.UpdateUserInput) (UserFormat, error)
+	GetUserByID(id string) (UserFormat, error)
 }
 
 type userService struct {
@@ -58,4 +61,47 @@ func (s *userService) LoginUser(input entity.LoginUserInput) (entity.User, error
 		return user, errors.New("invalid password")
 	}
 	return user, nil
+}
+
+func (s *userService) UpdateUserByID(id string, dataInput entity.UpdateUserInput) (UserFormat, error) {
+	var dataUpdate = map[string]interface{}{}
+
+	user, err := s.repository.GetUser(id)
+	if err != nil {
+		return UserFormat{}, err
+	}
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %s is not found", id)
+		return UserFormat{}, errors.New(newError)
+	}
+
+	if dataInput.Fullname != "" || len(dataInput.Fullname) != 0 {
+		dataUpdate["fullname"] = dataInput.Fullname
+	}
+
+	if dataInput.Address != "" || len(dataInput.Address) != 0 {
+		dataUpdate["address"] = dataInput.Address
+	}
+	dataUpdate["updated_at"] = time.Now()
+
+	userUpdated, err := s.repository.UpdateUserProfile(id, dataUpdate)
+	if err != nil {
+		return UserFormat{}, err
+	}
+	formatUser := FormattingUser(userUpdated)
+	return formatUser, nil
+
+}
+
+func (s *userService) GetUserByID(id string) (UserFormat, error) {
+	user, err := s.repository.GetUser(id)
+	if err != nil {
+		return UserFormat{}, err
+	}
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %s is not found", id)
+		return UserFormat{}, errors.New(newError)
+	}
+	userFormat := FormattingUser(user)
+	return userFormat, nil
 }
