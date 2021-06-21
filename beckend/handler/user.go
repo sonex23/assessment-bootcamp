@@ -61,3 +61,28 @@ func (h *userHandler) LoginUserHandler(c *gin.Context) {
 		"authorization": token,
 	})
 }
+
+func (h *userHandler) ShowUserProfileHandler(c *gin.Context) {
+	id := c.Param("id")
+	user, err := h.userService.GetUserByID(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, user)
+}
+
+func (h *userHandler) UpdateUserProfileHandler(c *gin.Context) {
+	id := c.Params.ByName("id")
+	var updateUserInput entity.UpdateUserInput
+	if err := c.ShouldBindJSON(&updateUserInput); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	user, err := h.userService.UpdateUserByID(id, updateUserInput)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(201, user)
+}

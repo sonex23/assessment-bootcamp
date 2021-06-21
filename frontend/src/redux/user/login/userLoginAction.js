@@ -41,7 +41,6 @@ const login = (email, password, history) => async (dispatch) => {
       email: email,
       password: password,
     };
-    // fetch("http://localhost:8000/users/login", {body:loginData, method:"POST"})
     const user = await assestmenBootcampClient({
       method: "POST",
       url: "/users/login",
