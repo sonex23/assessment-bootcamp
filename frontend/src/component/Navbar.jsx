@@ -9,7 +9,7 @@ const Navbar = () => {
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
           <a class="navbar-brand" href="#">
-            Navbar
+            Sona Ermando
           </a>
           <button
             class="navbar-toggler"
@@ -25,7 +25,15 @@ const Navbar = () => {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <a class="nav-link">Password List</a>
+                <a
+                  class="nav-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    history.push("/password");
+                  }}
+                >
+                  Password List
+                </a>
               </li>
               <li class="nav-item">
                 <a
@@ -39,7 +47,15 @@ const Navbar = () => {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link">Register</a>
+                <a
+                  class="nav-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    history.push("/register");
+                  }}
+                >
+                  Register
+                </a>
               </li>
             </ul>
           </div>

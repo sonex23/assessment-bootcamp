@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const PrivateRoute = (props) => {
   const userProfileData = useSelector((state) => state.userProfile);
-  return userProfileData.user_id === "" ? (
+  return userProfileData.id === "" ? (
     <Redirect to="/login"></Redirect>
   ) : (
     <h1>Ini Private Route</h1>
