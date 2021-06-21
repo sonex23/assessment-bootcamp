@@ -29,6 +29,35 @@ func (h *userHandler) CreateUserHandler(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(201, response)
+}
+
+func (h *userHandler) LoginUserHandler(c *gin.Context) {
+	var inputLoginUser entity.LoginUserInput
+
+	if err := c.ShouldBindJSON(&inputLoginUser); err != nil {
+		c.JSON(400, err.Error())
+		return
+	}
+	userData, err := h.userService.LoginUser(inputLoginUser)
+
+	if err != nil {
+		c.JSON(401, err.Error())
+		return
+	}
+	token, err := h.authService.GenerateToken(int(userData.ID))
+	if err != nil {
+		c.JSON(401, err.Error())
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"id":            userData.ID,
+		"fullname":      userData.Fullname,
+		"address":       userData.Address,
+		"email":         userData.Email,
+		"authorization": token,
+	})
 }

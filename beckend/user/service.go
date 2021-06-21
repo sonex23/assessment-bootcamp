@@ -54,7 +54,7 @@ func (s *userService) LoginUser(input entity.LoginUserInput) (entity.User, error
 		return user, errors.New(newError)
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)).Error; err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
 		return user, errors.New("Invalid Password")
 	}
 	return user, nil
