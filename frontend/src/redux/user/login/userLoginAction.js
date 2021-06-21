@@ -1,4 +1,4 @@
-import assestmenBootcampClient from "../../../../API/assesment-bootcamp";
+import assestmenBootcampClient from "../../../API/assesment-bootcamp";
 import userProfileAction from "../profile/userProfileAction";
 
 const setEmail = (email) => {
@@ -41,33 +41,24 @@ const login = (email, password, history) => async (dispatch) => {
       email: email,
       password: password,
     };
-
+    // fetch("http://localhost:8000/users/login", {body:loginData, method:"POST"})
     const user = await assestmenBootcampClient({
       method: "POST",
       url: "/users/login",
       data: loginData,
     });
 
-    const accessToken = user.data.data.token;
+    const accessToken = user.data.authorization;
 
     localStorage.setItem("accessToken", accessToken);
 
-    const userProfile = await assestmenBootcampClient({
-      method: "GET",
-      url: "/user_details",
-      headers: {
-        Authorization: user.data.data.token,
-      },
-    });
+    dispatch(userProfileAction.setProfileData(user.data));
 
-    dispatch(userProfileAction.setProfileData(userProfile.data.data));
-
-    history.push("/profile");
+    history.push("/password");
 
     dispatch(stopLoading());
   } catch (error) {
     console.log(error);
-    // dispatch(setErrorMessage(error.response.data.data.errors || ["internal server error"]));
     dispatch(stopLoading());
   }
 };
