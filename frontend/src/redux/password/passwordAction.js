@@ -81,12 +81,34 @@ const setPassword = (password) => {
     },
   };
 };
+
+const updatePassword = (id, pass, website, history) => async (dispatch) => {
+  try {
+    const passwordData = {
+      password: pass,
+      website: website,
+    };
+    const password = await assestmenBootcampClient({
+      headers: { Authorization: localStorage.getItem("accessToken") },
+      method: "PUT",
+      url: `/password/${id}`,
+      data: passwordData,
+    });
+    console.log(password);
+    alert("Password berhasil di update");
+    dispatch(fetchPassword());
+    history.push("/password");
+  } catch (error) {
+    console.log(error);
+  }
+};
 const passwordAction = {
   fetchPassword,
   savePassword,
   setWebsite,
   setPassword,
   deletePassword,
+  updatePassword,
 };
 
 export default passwordAction;

@@ -2,12 +2,25 @@ import React from "react";
 import Navbar from "../component/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import passwordAction from "../redux/password/passwordAction";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 const EditPassword = () => {
   let { id } = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
   const passwordData = useSelector((state) => state.passwordList.passwordData);
+
+  const handleEditPassword = (e) => {
+    e.preventDefault();
+    dispatch(
+      passwordAction.updatePassword(
+        id,
+        passwordData.password,
+        passwordData.website,
+        history
+      )
+    );
+  };
   return (
     <div>
       <Navbar />
@@ -16,7 +29,7 @@ const EditPassword = () => {
           <div className="col-12 col-md-6">
             <div className="card shadow p-4">
               <h2 className="text-center mb-3">Edit Password ID {id}</h2>
-              <form>
+              <form onSubmit={handleEditPassword}>
                 <div class="mb-3">
                   <label for="website" class="form-label">
                     Website
@@ -41,7 +54,7 @@ const EditPassword = () => {
                     id="password"
                     value={passwordData.password}
                     onChange={(e) => {
-                      dispatch(passwordAction.setpassword(e.target.value));
+                      dispatch(passwordAction.setPassword(e.target.value));
                     }}
                   />
                 </div>

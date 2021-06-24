@@ -49,6 +49,12 @@ const Password = () => {
                               className="btn btn-primary mr-3"
                               onClick={(e) => {
                                 e.preventDefault();
+                                dispatch(
+                                  passwordAction.setPassword(data.password)
+                                );
+                                dispatch(
+                                  passwordAction.setWebsite(data.website)
+                                );
                                 history.push(`/password/edit/${data.id}`);
                               }}
                             >
