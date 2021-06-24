@@ -2,14 +2,16 @@ import React, { useEffect } from "react";
 import Navbar from "../component/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import passwordAction from "../redux/password/passwordAction";
+import { useHistory } from "react-router-dom";
 
 const Password = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const passwordList = useSelector((state) => state.passwordList);
 
   useEffect(() => {
     dispatch(passwordAction.fetchPassword());
-  }, [passwordList]);
+  }, []);
   return (
     <div>
       <Navbar />
@@ -17,6 +19,16 @@ const Password = () => {
         <div className="row justify-content-center">
           <div className="col">
             <div className="card shadow p-4">
+              <h2 className="text-center mb-3">Password List</h2>
+              <button
+                className="btn btn-success w-25"
+                onClick={(e) => {
+                  e.preventDefault();
+                  history.push("/password/add");
+                }}
+              >
+                Add new Password
+              </button>
               <table className="table table-striped">
                 <thead>
                   <tr>
@@ -32,7 +44,15 @@ const Password = () => {
                         <td>{data.password}</td>
                         <td>{data.website}</td>
                         <td>
-                          <button className="btn btn-primary mr-3">Edit</button>
+                          <button
+                            className="btn btn-primary mr-3"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              history.push(`/password/edit/${data.id}`);
+                            }}
+                          >
+                            Edit
+                          </button>
                           <button className="btn btn-danger ml3">Hapus</button>
                         </td>
                       </tr>

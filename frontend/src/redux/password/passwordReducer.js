@@ -1,5 +1,9 @@
 const initialState = {
   passwordList: [],
+  passwordData: {
+    website: "",
+    password: "",
+  },
 };
 
 const passwordReducer = (state = initialState, action) => {
