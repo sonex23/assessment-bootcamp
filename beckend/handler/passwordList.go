@@ -60,5 +60,29 @@ func (h *passwordListHandler) DeleteByIDHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{"status": pass})
+}
 
+func (h *passwordListHandler) UpdateByIDHandler(c *gin.Context) {
+	id := c.Param("id")
+	var updatePasswordInput entity.PasswordListInputUpdate
+
+	if err := c.ShouldBindJSON(&updatePasswordInput); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	password, _ := h.passwordListService.GetByID(id)
+	idParam := int(password.UserID)
+	userData := int(c.MustGet("currentUser").(int))
+
+	if idParam != userData {
+		c.JSON(401, gin.H{"error": "Unauthorized User"})
+		return
+	}
+
+	pass, err := h.passwordListService.UpdatePasswordByID(id, updatePasswordInput)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(201, pass)
 }

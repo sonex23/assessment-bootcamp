@@ -17,4 +17,5 @@ func PasswordRoute(r *gin.Engine) {
 	r.POST("/password", handler.Middleware(userService, authService), passwordListHandler.SaveNewPasswordHandler)
 	r.GET("/password", handler.Middleware(userService, authService), passwordListHandler.GetByUserIDHandler)
 	r.DELETE("/password/:id", handler.Middleware(userService, authService), passwordListHandler.DeleteByIDHandler)
+	r.PUT("/password/:id", handler.Middleware(userService, authService), passwordListHandler.UpdateByIDHandler)
 }
