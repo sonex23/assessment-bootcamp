@@ -62,7 +62,7 @@ const Navbar = () => {
                         history.push("/login");
                       }}
                     >
-                      Profile
+                      Logout
                     </a>
                   </li>
                 </>

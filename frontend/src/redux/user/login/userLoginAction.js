@@ -73,11 +73,17 @@ const login = (email, password, history) => async (dispatch) => {
   }
 };
 
+const logout = () => {
+  return {
+    type: "USER_LOGOUT",
+  };
+};
 const userLoginAction = {
   resetForm,
   setEmail,
   setPassword,
   login,
+  logout,
 };
 
 export default userLoginAction;
