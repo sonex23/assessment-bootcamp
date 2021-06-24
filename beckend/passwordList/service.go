@@ -1,11 +1,17 @@
 package passwordList
 
-import "assesment-bootcamp/entity"
+import (
+	"assesment-bootcamp/entity"
+	"errors"
+	"fmt"
+)
 
 type PasswordListService interface {
 	SaveNewPassword(userID int, passwordList entity.PasswordListInput) (PasswordListFormat, error)
 	GetByID(ID string) (PasswordListFormat, error)
 	GetByUserID(userID int) ([]PasswordListFormat, error)
+	DeletePasswordByID(id string) (interface{}, error)
+	UpdatePasswordByID(id string, dataInput entity.PasswordListInputUpdate) (PasswordListFormat, error)
 }
 
 type service struct {
@@ -52,4 +58,45 @@ func (s *service) GetByUserID(userID int) ([]PasswordListFormat, error) {
 		return passwordListsFormat, err
 	}
 	return passwordListsFormat, nil
+}
+
+func (s *service) UpdatePasswordByID(id string, dataInput entity.PasswordListInputUpdate) (PasswordListFormat, error) {
+	var dataUpdate = map[string]interface{}{}
+	password, err := s.repository.FindById(id)
+	if password.ID == 0 {
+		newError := fmt.Sprintf("password id %s is not found", id)
+		return PasswordListFormat{}, errors.New(newError)
+	}
+
+	if err != nil {
+		return PasswordListFormat{}, err
+	}
+	if dataInput.Password != "" {
+		dataUpdate["password"] = dataInput.Password
+	}
+	if dataInput.Website != "" {
+		dataUpdate["website"] = dataInput.Website
+	}
+	passwordUpdate, err := s.repository.UpdatePassword(id, dataUpdate)
+	if err != nil {
+		return PasswordListFormat{}, err
+	}
+	formatPassword := FormattingPassword(passwordUpdate)
+	return formatPassword, nil
+}
+
+func (s *service) DeletePasswordByID(id string) (interface{}, error) {
+	password, err := s.repository.FindById(id)
+	if err != nil {
+		return nil, err
+	}
+	if password.ID == 0 {
+		newError := fmt.Sprintf("password id %s is not found", id)
+		return PasswordListFormat{}, errors.New(newError)
+	}
+	status, err := s.repository.DeleteById(id)
+	if err != nil {
+		return status, err
+	}
+	return status, nil
 }

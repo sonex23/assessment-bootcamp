@@ -38,26 +38,37 @@ const Password = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {passwordList.passwordList.map((data, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{data.password}</td>
-                        <td>{data.website}</td>
-                        <td>
-                          <button
-                            className="btn btn-primary mr-3"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              history.push(`/password/edit/${data.id}`);
-                            }}
-                          >
-                            Edit
-                          </button>
-                          <button className="btn btn-danger ml3">Hapus</button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {passwordList.passwordList != null &&
+                    passwordList.passwordList.map((data, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{data.password}</td>
+                          <td>{data.website}</td>
+                          <td>
+                            <button
+                              className="btn btn-primary mr-3"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                history.push(`/password/edit/${data.id}`);
+                              }}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="btn btn-danger ml3"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                dispatch(
+                                  passwordAction.deletePassword(data.id)
+                                );
+                              }}
+                            >
+                              Hapus
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   {/* <pre>{JSON.stringify(passwordList)}</pre> */}
                 </tbody>
               </table>

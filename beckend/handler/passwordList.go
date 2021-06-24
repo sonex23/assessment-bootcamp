@@ -43,3 +43,22 @@ func (h *passwordListHandler) GetByUserIDHandler(c *gin.Context) {
 	}
 	c.JSON(200, passwordLists)
 }
+
+func (h *passwordListHandler) DeleteByIDHandler(c *gin.Context) {
+	id := c.Param("id")
+	password, _ := h.passwordListService.GetByID(id)
+	idParam := int(password.UserID)
+	userData := int(c.MustGet("currentUser").(int))
+
+	if idParam != userData {
+		c.JSON(401, gin.H{"error": "Unauthorized User"})
+		return
+	}
+	pass, err := h.passwordListService.DeletePasswordByID(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"status": pass})
+
+}

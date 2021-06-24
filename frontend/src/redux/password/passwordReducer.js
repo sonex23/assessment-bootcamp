@@ -13,7 +13,23 @@ const passwordReducer = (state = initialState, action) => {
         ...state,
         passwordList: action.payload.passwordList,
       };
+    case "SET_DATA_WEBSITE":
+      return {
+        ...state,
+        passwordData: {
+          ...state.passwordData,
+          website: action.payload.website,
+        },
+      };
 
+    case "SET_DATA_PASSWORD":
+      return {
+        ...state,
+        passwordData: {
+          ...state.passwordData,
+          password: action.payload.password,
+        },
+      };
     default:
       return {
         ...state,
