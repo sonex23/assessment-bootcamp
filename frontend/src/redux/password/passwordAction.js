@@ -13,13 +13,19 @@ const fetchPassword = () => async (dispatch) => {
     const accessToken = localStorage.getItem("accessToken");
     const passwordList = await assestmenBootcampClient({
       method: "GET",
-      url: "password",
+      url: "/password",
       headers: {
         Authorization: accessToken,
       },
     });
-    dispatch(setPasswordList(passwordList));
+    dispatch(setPasswordList(passwordList.data));
   } catch (error) {
     console.log(error);
   }
 };
+
+const passwordAction = {
+  fetchPassword,
+};
+
+export default passwordAction;

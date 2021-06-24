@@ -1,5 +1,6 @@
 import assestmenBootcampClient from "../../../API/assesment-bootcamp";
 import userProfileAction from "../profile/userProfileAction";
+import passwordAction from "../../password/passwordAction";
 
 const resetForm = () => {
   return {
@@ -60,7 +61,6 @@ const login = (email, password, history) => async (dispatch) => {
     const accessToken = user.data.authorization;
 
     localStorage.setItem("accessToken", accessToken);
-
     dispatch(userProfileAction.setProfileData(user.data));
     history.push("/password");
     dispatch(resetForm());
