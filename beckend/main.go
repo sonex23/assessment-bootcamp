@@ -10,7 +10,9 @@ import (
 func main() {
 	r := gin.Default()
 	r.Use(handler.CorsMiddleware())
+	// r.Use(cors.Default())
 	route.UserRoute(r)
+	route.PasswordRoute(r)
 
 	r.Run(":8000")
 }

@@ -35,6 +35,10 @@ const userLoginReducer = (state = initialState, action) => {
         isLoading: false,
       };
 
+    case "USER_LOGIN_RESET_FORM":
+      return {
+        ...initialState,
+      };
     default:
       return state;
   }

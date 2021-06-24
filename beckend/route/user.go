@@ -21,5 +21,6 @@ var (
 func UserRoute(r *gin.Engine) {
 	r.POST("/users/register", userHandler.CreateUserHandler)
 	r.POST("/users/login", userHandler.LoginUserHandler)
-
+	r.GET("/users/:id", handler.Middleware(userService, authService), userHandler.ShowUserProfileHandler)
+	r.PUT("/users/:id", handler.Middleware(userService, authService), userHandler.UpdateUserProfileHandler)
 }

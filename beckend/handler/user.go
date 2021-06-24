@@ -4,6 +4,7 @@ import (
 	"assesment-bootcamp/auth"
 	"assesment-bootcamp/entity"
 	"assesment-bootcamp/user"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,18 +39,18 @@ func (h *userHandler) LoginUserHandler(c *gin.Context) {
 	var inputLoginUser entity.LoginUserInput
 
 	if err := c.ShouldBindJSON(&inputLoginUser); err != nil {
-		c.JSON(400, err.Error())
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 	userData, err := h.userService.LoginUser(inputLoginUser)
 
 	if err != nil {
-		c.JSON(401, err.Error())
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 	token, err := h.authService.GenerateToken(int(userData.ID))
 	if err != nil {
-		c.JSON(401, err.Error())
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -79,6 +80,17 @@ func (h *userHandler) UpdateUserProfileHandler(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+
+	idParam, _ := strconv.Atoi(id)
+
+	userData := int(c.MustGet("currentUser").(int))
+
+	if idParam != userData {
+
+		c.JSON(401, gin.H{"error": "USER ID is not authorized"})
+		return
+	}
+
 	user, err := h.userService.UpdateUserByID(id, updateUserInput)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})

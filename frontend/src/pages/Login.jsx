@@ -27,9 +27,15 @@ const Login = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="card col-12 col-md-6 shadow p-5">
-            <pre>{JSON.stringify(userLoginData)}</pre>
             <form onSubmit={loginSubmitHandler}>
               <h2 className="text-center">Login</h2>
+              {userLoginData.errorMessage ? (
+                <span className="text-danger mb-3">
+                  {userLoginData.errorMessage}
+                </span>
+              ) : (
+                ""
+              )}
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">
                   Email address
@@ -59,8 +65,12 @@ const Login = () => {
                   }}
                 />
               </div>
-              <button type="submit" class="btn btn-primary">
-                Submit
+              <button
+                type="submit"
+                class="btn btn-primary"
+                disabled={userLoginData.isLoading ? true : false}
+              >
+                {userLoginData.isLoading ? "Loading...." : "Submit"}
               </button>
             </form>
           </div>

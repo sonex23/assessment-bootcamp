@@ -2,12 +2,23 @@ const initialState = {
   id: "",
   fullname: "",
   address: "",
+  email: "",
   errorMessage: "",
   isLoading: false,
 };
 
 const userProfileReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "USER_PROFILE_SET_ID":
+      return {
+        ...state,
+        id: action.payload.id,
+      };
+    case "USER_PROFILE_SET_EMAIL":
+      return {
+        ...state,
+        email: action.payload.email,
+      };
     case "USER_PROFILE_SET_FULLNAME":
       return {
         ...state,

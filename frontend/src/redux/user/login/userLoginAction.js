@@ -1,6 +1,11 @@
 import assestmenBootcampClient from "../../../API/assesment-bootcamp";
 import userProfileAction from "../profile/userProfileAction";
 
+const resetForm = () => {
+  return {
+    type: "USER_LOGIN_RESET_FORM",
+  };
+};
 const setEmail = (email) => {
   return {
     type: "USER_LOGIN_SET_EMAIL",
@@ -47,22 +52,29 @@ const login = (email, password, history) => async (dispatch) => {
       data: loginData,
     });
 
+    if (user.data.error) {
+      dispatch(setErrorMessage(user.data.error));
+      return;
+    }
+
     const accessToken = user.data.authorization;
 
     localStorage.setItem("accessToken", accessToken);
 
     dispatch(userProfileAction.setProfileData(user.data));
-
     history.push("/password");
-
+    dispatch(resetForm());
     dispatch(stopLoading());
   } catch (error) {
     console.log(error);
+    dispatch(resetForm());
+    dispatch(setErrorMessage(error.response.data.error));
     dispatch(stopLoading());
   }
 };
 
 const userLoginAction = {
+  resetForm,
   setEmail,
   setPassword,
   login,
