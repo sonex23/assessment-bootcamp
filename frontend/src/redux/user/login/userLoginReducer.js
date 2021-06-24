@@ -39,6 +39,13 @@ const userLoginReducer = (state = initialState, action) => {
       return {
         ...initialState,
       };
+
+    case "USER_LOGOUT":
+      localStorage.removeItem("accessToken");
+      return {
+        ...initialState,
+      };
+
     default:
       return state;
   }

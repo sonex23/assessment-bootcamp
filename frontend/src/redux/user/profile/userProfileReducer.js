@@ -46,7 +46,11 @@ const userProfileReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
-
+    case "USER_LOGOUT":
+      localStorage.removeItem("accessToken");
+      return {
+        ...initialState,
+      };
     default:
       return state;
   }

@@ -1,9 +1,11 @@
 import React from "react";
 import { useHistory, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import userLoginAction from "../redux/user/login/userLoginAction";
 
 const Navbar = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.userProfile);
   return (
     <div>
@@ -45,6 +47,19 @@ const Navbar = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         history.push("/profile");
+                      }}
+                    >
+                      Profile
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        dispatch(userLoginAction.logout());
+                        history.push("/login");
                       }}
                     >
                       Profile
