@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import userLoginAction from "../redux/user/login/userLoginAction";
 
@@ -57,12 +57,14 @@ const Navbar = () => {
                     <a
                       class="nav-link"
                       onClick={(e) => {
-                        e.preventDefault();
+                        // e.preventDefault();
                         dispatch(userLoginAction.logout());
-                        history.push("/login");
+                        // history.push("/login");
                       }}
+                      href="/login"
                     >
                       Logout
+                      {/* <Redirect to="/login" /> */}
                     </a>
                   </li>
                 </>

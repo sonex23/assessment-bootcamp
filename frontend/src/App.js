@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { decodeToken } from "react-jwt";
 
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import MainRouter from "./routes/MainRouter";
 import userProfileAction from "./redux/user/profile/userProfileAction";
 
 const App = () => {
-  const dataUser = useSelector((state) => state.userProfile);
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.userProfile);
+  const accessToken = localStorage.getItem("accessToken");
+  const myAccessToken = decodeToken(accessToken);
+
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken != null) {
-      dispatch(userProfileAction.setProfileData(dataUser));
+    if (accessToken) {
+      dispatch(userProfileAction.getProfile(myAccessToken.user_id));
+      // alert(myAccessToken.user_id);
     }
   }, []);
 

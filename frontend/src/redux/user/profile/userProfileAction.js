@@ -55,6 +55,7 @@ const updateProfile = (id, fullname, address) => async (dispatch) => {
     console.log(error);
   }
 };
+
 const setProfileData = (data) => (dispatch) => {
   dispatch(setId(data.id));
   dispatch(setFullname(data.fullname));
@@ -62,11 +63,29 @@ const setProfileData = (data) => (dispatch) => {
   dispatch(setEmail(data.email));
 };
 
+const getProfile = (id) => async (dispatch) => {
+  try {
+    const userProfile = await assestmenBootcampClient({
+      method: "GET",
+      url: `/users/${id}`,
+      headers: {
+        Authorization: localStorage.getItem("accessToken"),
+      },
+    });
+    dispatch(setProfileData(userProfile.data));
+    console.log(userProfile.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const userProfileAction = {
   setFullname,
   setAddress,
   setProfileData,
+  setId,
   updateProfile,
+  getProfile,
 };
 
 export default userProfileAction;
